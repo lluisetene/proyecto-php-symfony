@@ -1,13 +1,29 @@
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            cost: 4
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
+        proveedor: # De donde saca todos los usuarios
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            form_login:
+                login_path: login
+                check_path: login
+                provider: proveedor
+
+            logout:
+                path: /logout
+                target: /tasks
 
             # activate different ways to authenticate
 
@@ -21,4 +37,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/tasks, roles: ROLE_USER }
+         - { path: ^/task, roles: ROLE_USER }
+         - { path: ^/task-create, roles: ROLE_USER }
+         - { path: ^/task-edit, roles: ROLE_USER }
+         - { path: ^/task-delete, roles: ROLE_USER }
