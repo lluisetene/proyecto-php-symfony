@@ -23,7 +23,7 @@ security:
 
             logout:
                 path: /logout
-                target: /tasks
+                target: /tasks # Después de loguear, redirigirá a esta URL
 
             # activate different ways to authenticate
 
